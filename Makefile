@@ -5,15 +5,15 @@ CFLAGS+= -I$(GCCPLUGINS_DIR)/include -fPIC -O2
 
 PLUGIN_SOURCE_FILES = hello.c
 PLUGIN_OBJECT_FILES = $(patsubst %.c,%.o,$(PLUGIN_SOURCE_FILES))
-PLUGIN_SO_NAME = hello.so
+PLUGIN_SO = hello.so
 
-$(PLUGIN_SO_NAME): $(PLUGIN_OBJECT_FILES)
+$(PLUGIN_SO): $(PLUGIN_OBJECT_FILES)
 	$(GCC) -shared $^ -o $@
 
-all: $(PLUGIN_SO_NAME)
+all: $(PLUGIN_SO)
+
+play: ${PLUGIN_SO}
+	cd playground && make
 
 clean:
-	-rm ${PLUGIN_SO_NAME} ${PLUGIN_OBJECT_FILES}
-
-play:
-	cd playground && make
+	-rm ${PLUGIN_SO} ${PLUGIN_OBJECT_FILES}
